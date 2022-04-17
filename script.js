@@ -3,6 +3,13 @@
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+const nav = document.querySelector('.nav');
+
+const initialCoords = section1.getBoundingClientRect();
 ///////////////////////////////////////
 // Modal window
 
@@ -90,10 +97,6 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 //   'var(--color-secondary)';
 
 // Tabbed Component
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
 //Delegate event handler to parent element
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
@@ -115,8 +118,6 @@ tabsContainer.addEventListener('click', function (e) {
 });
 
 //Menu fade animantion
-const nav = document.querySelector('.nav');
-
 //Refactoring
 const handlerHover = function (e) {
   if (e.target.classList.contains('nav__link')) {
@@ -135,3 +136,13 @@ const handlerHover = function (e) {
 //mouseover make bubbles, mouseenter no
 nav.addEventListener('mouseover', handlerHover.bind(0.5));
 nav.addEventListener('mouseout', handlerHover.bind(1));
+
+//Sticky navigation
+window.addEventListener('scroll', function (e) {
+  console.log(window.scrollY);
+  if (window.scrollY > initialCoords.top) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+});
