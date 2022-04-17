@@ -117,31 +117,21 @@ tabsContainer.addEventListener('click', function (e) {
 //Menu fade animantion
 const nav = document.querySelector('.nav');
 
-//mouseover make bubbles, mouseenter no
-nav.addEventListener('mouseover', function (e) {
+//Refactoring
+const handlerHover = function (e) {
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
     const logo = link.closest('.nav').querySelector('img');
     siblings.forEach(el => {
       if (el !== link) {
-        el.style.opacity = 0.5;
+        el.style.opacity = this;
       }
     });
-    logo.style.opacity = 0.5;
+    logo.style.opacity = this;
   }
-});
+};
 
-nav.addEventListener('mouseout', function (e) {
-  if (e.target.classList.contains('nav__link')) {
-    const link = e.target;
-    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
-    const logo = link.closest('.nav').querySelector('img');
-    siblings.forEach(el => {
-      if (el !== link) {
-        el.style.opacity = 1;
-      }
-    });
-    logo.style.opacity = 1;
-  }
-});
+//mouseover make bubbles, mouseenter no
+nav.addEventListener('mouseover', handlerHover.bind(0.5));
+nav.addEventListener('mouseout', handlerHover.bind(1));
