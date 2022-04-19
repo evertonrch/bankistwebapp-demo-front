@@ -182,7 +182,7 @@ const allSections = document.querySelectorAll('.section');
 
 const revealSection = function (entries, observe) {
   const [entry] = entries;
-  console.log(entry);
+
   if (!entry.target) return;
 
   entry.target.classList.remove('section--hidden');
@@ -197,3 +197,32 @@ allSections.forEach(function (section) {
   sectionObserver.observe(section);
   section.classList.add('section--hidden');
 });
+
+//Lazy load images
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const loadImage = function (entries, observe) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  //Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  //Ocorre quando o carregamento termina
+  entry.target.addEventListener('load', function () {
+    // console.log(`terminou`);
+    entry.target.classList.remove('lazy-img');
+  });
+
+  imgObserver.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImage, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
